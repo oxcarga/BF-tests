@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import "./index.css";
 
-interface ISearch {
+type args = {
   setResults: Function;
-}
+};
 
-export default function Search({ setResults }: ISearch) {
+export default function Search({ setResults }: args) {
   const [query, setQuery] = useState("");
 
   /**
@@ -30,9 +30,9 @@ export default function Search({ setResults }: ISearch) {
   /**
    *
    */
-  const onChange = (event: any) => {
-    setQuery(event.target.value);
-  };
+  function onChange(event: ChangeEvent) {
+    setQuery((event.target as HTMLButtonElement).value);
+  }
 
   return (
     <div className="search">

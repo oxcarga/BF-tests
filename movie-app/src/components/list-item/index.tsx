@@ -1,18 +1,15 @@
-export default function ListItem({
-  theKey,
-  image,
-  name,
-  genres,
-  summary,
-  rating,
-}: any) {
+import { IShowFiltered } from "../../interfaces";
+
+type args = { show: IShowFiltered };
+
+export default function ListItem({ show }: args) {
   return (
     <li>
-      <img src={image} alt="" />
-      <h2>{name}</h2>
-      <p>{rating}</p>
-      <p>{genres}</p>
-      <p dangerouslySetInnerHTML={{ __html: summary }}></p>
+      <img src={show.image} alt="" />
+      <h2>{show.name}</h2>
+      <p>{show.rating}</p>
+      <p>{show.genres}</p>
+      <p dangerouslySetInnerHTML={{ __html: show.summary }}></p>
     </li>
   );
 }
