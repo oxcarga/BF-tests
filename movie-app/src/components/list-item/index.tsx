@@ -1,4 +1,4 @@
-import { IShowFiltered } from "../../interfaces";
+import { IShowFiltered } from "interfaces";
 
 type args = { show: IShowFiltered };
 

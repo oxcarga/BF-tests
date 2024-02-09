@@ -1,6 +1,6 @@
 import * as DOMPurify from "dompurify";
-import ListItem from "../list-item";
-import { IShow, IShowFiltered } from "../../interfaces";
+import ListItem from "components/list-item";
+import { IShow, IShowFiltered } from "interfaces";
 
 type args = {
   results: Array<IShow>;
