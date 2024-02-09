@@ -1,0 +1,10 @@
+.search {
+  background-color: #eee;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.search input {
+  margin: 0 10px;
+}
