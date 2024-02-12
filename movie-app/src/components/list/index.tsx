@@ -5,9 +5,10 @@ import "./index.css";
 
 type args = {
   results: Array<IShow>;
+  layout: string;
 };
 
-export default function List({ results }: args) {
+export default function List({ results, layout }: args) {
   if (!results.length) return <span>nothing to show</span>;
   const listItems = results.map(({ show }: any) => {
     const genres = show.genres.join(", ");
@@ -18,7 +19,7 @@ export default function List({ results }: args) {
       summary: show.summary,
       genres,
     };
-    return <ListItem key={show.id} show={theShow} />;
+    return <ListItem key={show.id} show={theShow} layout={layout} />;
   });
   return <ul>{listItems}</ul>;
 }

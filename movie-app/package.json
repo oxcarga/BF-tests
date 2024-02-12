@@ -13,7 +13,7 @@
     "@types/react-dom": "^18.2.19",
     "dompurify": "^3.0.8",
     "html-react-parser": "^5.1.2",
-    "lodash": "^4.17.21",
+    "lucide-react": "^0.330.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",

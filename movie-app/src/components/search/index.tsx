@@ -1,12 +1,29 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
+import { LayoutList, LayoutGrid } from "lucide-react";
+import { IShow } from "interfaces";
 import "./index.css";
 
 type args = {
+  results: Array<IShow>;
   setResults: Function;
+  layout: string;
+  setLayout: Function;
 };
 
-export default function Search({ setResults }: args) {
+export default function Search({
+  results,
+  setResults,
+  layout,
+  setLayout,
+}: args) {
   const [query, setQuery] = useState("");
+
+  /**
+   *
+   */
+  const gotResults = useMemo(() => {
+    return results && results.length > 0;
+  }, [results]);
 
   /**
    *  Run search only when query changes using a timeout
@@ -31,13 +48,40 @@ export default function Search({ setResults }: args) {
    *
    */
   function onChange(event: ChangeEvent) {
-    setQuery((event.target as HTMLButtonElement).value);
+    setQuery((event.target as HTMLInputElement).value);
+  }
+
+  /**
+   *
+   */
+  function onGridChange(event: React.MouseEvent<HTMLElement>) {
+    const el = event.target as HTMLButtonElement;
+    if (el.classList.contains("selected")) return;
+    const l = el.getAttribute("data-layout");
+    console.log(`LAYOUT: ${l}`);
+    setLayout(el.getAttribute("data-layout"));
   }
 
   return (
     <div className="search">
       <label htmlFor="search">Search: </label>
       <input type="text" id="search" onChange={onChange} />
+      <button
+        disabled={!gotResults}
+        data-layout="list"
+        className={layout === "list" ? "selected" : ""}
+        onClick={onGridChange}
+      >
+        <LayoutList />
+      </button>
+      <button
+        disabled={!gotResults}
+        data-layout="grid"
+        className={layout === "grid" ? "selected" : ""}
+        onClick={onGridChange}
+      >
+        <LayoutGrid />
+      </button>
     </div>
   );
 }

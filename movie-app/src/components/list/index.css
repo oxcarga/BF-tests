@@ -6,7 +6,7 @@ li {
   border-bottom: 1px solid #ddd;
 }
 
-li div {
+li > div {
   display: flex;
   flex-direction: column;
   padding-left: 20px;
