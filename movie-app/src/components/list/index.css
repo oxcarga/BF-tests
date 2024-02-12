@@ -1,0 +1,28 @@
+li {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+li div {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+}
+li div * {
+  margin: 0;
+}
+
+li h2 {
+  margin-bottom: 15px;
+}
+
+li p {
+  margin-bottom: 7px;
+}
+
+li img {
+  height: 200px;
+}
