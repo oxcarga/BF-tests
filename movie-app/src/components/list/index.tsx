@@ -6,10 +6,12 @@ import "./index.css";
 type args = {
   results: Array<IShow>;
   layout: string;
+  setShowHighlighted: Function;
 };
 
-export default function List({ results, layout }: args) {
-  if (!results.length) return <span>nothing to show</span>;
+export default function List({ results, layout, setShowHighlighted }: args) {
+  if (!results.length) return <h2>No shows yet...</h2>;
+
   const listItems = results.map(({ show }: any) => {
     const genres = show.genres.join(", ");
     const theShow: IShowFiltered = {
@@ -19,7 +21,15 @@ export default function List({ results, layout }: args) {
       summary: show.summary,
       genres,
     };
-    return <ListItem key={show.id} show={theShow} layout={layout} />;
+
+    return (
+      <ListItem
+        key={show.id}
+        show={theShow}
+        layout={layout}
+        setShowHighlighted={setShowHighlighted}
+      />
+    );
   });
   return <ul>{listItems}</ul>;
 }
