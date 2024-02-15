@@ -4,9 +4,9 @@ import Search from "components/search";
 import List from "components/list";
 import ShowHighlighted from "components/show-highlight";
 import showsReducer from "reducers/showsReducer";
+import highlightedReducer from "reducers/highlightedReducer";
 
 import "App.css";
-import highlightedReducer from "reducers/highlightedReducer";
 
 function App() {
   const [shows, setShows] = useReducer(showsReducer, []);
