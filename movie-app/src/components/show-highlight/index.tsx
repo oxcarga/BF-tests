@@ -2,19 +2,26 @@ import { IShowFiltered } from "interfaces";
 import { ChevronLeftCircle } from "lucide-react";
 
 type args = {
-  showHighlighted: IShowFiltered | null;
-  setShowHighlighted: Function;
+  highlightedShow: IShowFiltered | null;
+  setHighlightedShow: Function;
 };
 
 export default function ShowHighlighted({
-  showHighlighted,
-  setShowHighlighted,
+  highlightedShow,
+  setHighlightedShow,
 }: args) {
   return (
     <div className="sticky">
-      <ChevronLeftCircle onClick={() => setShowHighlighted(null)} />
-      <h3>{showHighlighted?.name}</h3>
-      <img src={showHighlighted?.image} alt="" />
+      <ChevronLeftCircle
+        onClick={() =>
+          setHighlightedShow({
+            type: "unset",
+            show: null,
+          })
+        }
+      />
+      <h3>{highlightedShow?.name}</h3>
+      <img src={highlightedShow?.image} alt="" />
     </div>
   );
 }

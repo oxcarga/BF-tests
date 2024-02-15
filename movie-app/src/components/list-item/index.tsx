@@ -6,10 +6,10 @@ import { IShow, IShowFiltered } from "interfaces";
 type args = {
   show: IShowFiltered;
   layout: string;
-  setShowHighlighted: Function;
+  setHighlightedShow: Function;
 };
 
-export default function ListItem({ show, layout, setShowHighlighted }: args) {
+export default function ListItem({ show, layout, setHighlightedShow }: args) {
   const rating = show.rating ? (
     <span>
       <strong>Rating: </strong>
@@ -27,9 +27,27 @@ export default function ListItem({ show, layout, setShowHighlighted }: args) {
 
   return (
     <li>
-      <img src={show.image} alt="" onClick={() => setShowHighlighted(show)} />
+      <img
+        src={show.image}
+        alt=""
+        onClick={() =>
+          setHighlightedShow({
+            type: "set",
+            show,
+          })
+        }
+      />
       <div>
-        <h2 onClick={() => setShowHighlighted(show)}>{show.name}</h2>
+        <h2
+          onClick={() =>
+            setHighlightedShow({
+              type: "set",
+              show,
+            })
+          }
+        >
+          {show.name}
+        </h2>
         <p>{rating}</p>
         <p>{show.genres}</p>
         <div className="summary">

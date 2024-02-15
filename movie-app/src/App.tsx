@@ -1,49 +1,59 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useReducer, useState } from "react";
 import Header from "components/header";
 import Search from "components/search";
 import List from "components/list";
 import ShowHighlighted from "components/show-highlight";
-import { IShowFiltered } from "interfaces";
+import { IShow, IShowFiltered } from "interfaces";
+import showsReducer from "reducers/showsReducer";
 
 import "App.css";
+import highlightedReducer from "reducers/highlightedReducer";
 
 function App() {
-  const [results, setResults] = useState([]);
-  const [layout, setLayout] = useState("list");
-  const [showHighlighted, setShowHighlighted] = useState<IShowFiltered | null>(
+  const [shows, setShows] = useReducer(showsReducer, []);
+  const [highlightedShow, setHighlightedShow] = useReducer(
+    highlightedReducer,
     null
   );
+  const [layout, setLayout] = useState("list");
 
   useEffect(() => {
-    setShowHighlighted(null);
-  }, [results]);
+    // do not reset the highlighted if highlighted show is inside shows array
+    if (shows.find(item => item.show.id === highlightedShow?.id)) {
+      return;
+    }
+    setHighlightedShow({
+      type: "unset",
+      show: null,
+    });
+  }, [shows]);
 
   const mainClasses = useMemo(() => {
-    const showVisible = showHighlighted ? "show-highlighted" : "";
+    const showVisible = highlightedShow ? "show-highlighted" : "";
     return `${layout} ${showVisible}`;
-  }, [layout, showHighlighted]);
+  }, [layout, highlightedShow]);
 
   return (
     <>
       <Header />
       <Search
-        results={results}
-        setResults={setResults}
+        results={shows}
+        setResults={setShows}
         layout={layout}
         setLayout={setLayout}
       />
       <main className={mainClasses}>
         <article>
           <List
-            results={results}
+            results={shows}
             layout={layout}
-            setShowHighlighted={setShowHighlighted}
+            setHighlightedShow={setHighlightedShow}
           />
         </article>
         <aside>
           <ShowHighlighted
-            showHighlighted={showHighlighted}
-            setShowHighlighted={setShowHighlighted}
+            highlightedShow={highlightedShow}
+            setHighlightedShow={setHighlightedShow}
           />
         </aside>
       </main>

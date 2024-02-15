@@ -29,7 +29,11 @@ export default function Search({
    *  Run search only when query changes using a timeout
    */
   useEffect(() => {
-    if (!query) return setResults([]);
+    if (!query)
+      return setResults({
+        type: "add",
+        shows: [],
+      });
     const timeoutRef = setTimeout(() => doSearch(query), 500);
     return () => clearTimeout(timeoutRef);
   }, [query]);
@@ -40,8 +44,10 @@ export default function Search({
   const doSearch = async (query: string) => {
     const res = await fetch(`https://api.tvmaze.com/search/shows?q=${query}`);
     const items = await res.json();
-    console.log(items);
-    setResults(items);
+    setResults({
+      type: "add",
+      shows: items,
+    });
   };
 
   /**

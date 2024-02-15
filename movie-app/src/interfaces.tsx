@@ -4,6 +4,7 @@ export interface IShow {
 }
 
 export interface IShowFiltered {
+  id: number;
   name: string;
   rating: number;
   image: string;
