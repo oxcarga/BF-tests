@@ -3,7 +3,6 @@ import Header from "components/header";
 import Search from "components/search";
 import List from "components/list";
 import ShowHighlighted from "components/show-highlight";
-import { IShow, IShowFiltered } from "interfaces";
 import showsReducer from "reducers/showsReducer";
 
 import "App.css";
