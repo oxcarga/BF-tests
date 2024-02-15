@@ -1,7 +1,7 @@
 import { SyntheticEvent } from "react";
 import parse from "html-react-parser";
 import { ChevronDown } from "lucide-react";
-import { IShow, IShowFiltered } from "interfaces";
+import { IShowFiltered } from "interfaces";
 
 type args = {
   show: IShowFiltered;
