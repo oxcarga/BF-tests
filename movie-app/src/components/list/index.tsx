@@ -1,15 +1,13 @@
+import { useContext } from "react";
 import ListItem from "components/list-item";
+import { ShowsContext } from "contexts/ShowsContext";
 import { IShow, IShowFiltered } from "interfaces";
 
 import "./index.css";
+import { SetHighlightedShowContext } from "contexts/HighlightedShowContext";
 
-type args = {
-  results: Array<IShow>;
-  layout: string;
-  setHighlightedShow: Function;
-};
-
-export default function List({ results, layout, setHighlightedShow }: args) {
+export default function List() {
+  const results: IShow[] = useContext(ShowsContext);
   if (!results.length) return <h2>No shows yet...</h2>;
 
   const listItems = results.map(({ show }: any) => {
@@ -23,14 +21,7 @@ export default function List({ results, layout, setHighlightedShow }: args) {
       genres,
     };
 
-    return (
-      <ListItem
-        key={show.id}
-        show={theShow}
-        layout={layout}
-        setHighlightedShow={setHighlightedShow}
-      />
-    );
+    return <ListItem key={show.id} show={theShow} />;
   });
   return <ul>{listItems}</ul>;
 }

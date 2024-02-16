@@ -1,27 +1,22 @@
-import { ChangeEvent, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useMemo, useState } from "react";
 import { LayoutList, LayoutGrid } from "lucide-react";
+import { SetShowsContext, ShowsContext } from "contexts/ShowsContext";
+import { LayoutContext, SetLayoutContext } from "contexts/LayoutContext";
+import searchShows from "apis/ShowsAPI";
 import { IShow } from "interfaces";
 import "./index.css";
 
-type args = {
-  results: Array<IShow>;
-  setResults: Function;
-  layout: string;
-  setLayout: Function;
-};
-
-export default function Search({
-  results,
-  setResults,
-  layout,
-  setLayout,
-}: args) {
-  const [query, setQuery] = useState("");
+export default function Search() {
+  const results: IShow[] = useContext(ShowsContext);
+  const setResults: Function = useContext(SetShowsContext);
+  const layout: string = useContext(LayoutContext);
+  const setLayout: Function = useContext(SetLayoutContext);
+  const [query, setQuery] = useState<string>("");
 
   /**
    *
    */
-  const gotResults = useMemo(() => {
+  const areThereResults: boolean = useMemo(() => {
     return results && results.length > 0;
   }, [results]);
 
@@ -34,21 +29,14 @@ export default function Search({
         type: "add",
         shows: [],
       });
-    const timeoutRef = setTimeout(() => doSearch(query), 500);
+    const timeoutRef = setTimeout(async () => {
+      setResults({
+        type: "add",
+        shows: await searchShows(query),
+      });
+    }, 500);
     return () => clearTimeout(timeoutRef);
-  }, [query]);
-
-  /**
-   *
-   */
-  const doSearch = async (query: string) => {
-    const res = await fetch(`https://api.tvmaze.com/search/shows?q=${query}`);
-    const items = await res.json();
-    setResults({
-      type: "add",
-      shows: items,
-    });
-  };
+  }, [query, setResults]);
 
   /**
    *
@@ -73,7 +61,7 @@ export default function Search({
       <label htmlFor="search">Search: </label>
       <input type="text" id="search" onChange={onChange} />
       <button
-        disabled={!gotResults}
+        disabled={!areThereResults}
         data-layout="list"
         className={layout === "list" ? "selected" : ""}
         onClick={onGridChange}
@@ -81,7 +69,7 @@ export default function Search({
         <LayoutList />
       </button>
       <button
-        disabled={!gotResults}
+        disabled={!areThereResults}
         data-layout="grid"
         className={layout === "grid" ? "selected" : ""}
         onClick={onGridChange}

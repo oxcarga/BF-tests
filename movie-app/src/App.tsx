@@ -2,9 +2,15 @@ import { useEffect, useMemo, useReducer, useState } from "react";
 import Header from "components/header";
 import Search from "components/search";
 import List from "components/list";
-import ShowHighlighted from "components/show-highlight";
+import HighlightedShow from "components/highlighted-show";
 import showsReducer from "reducers/showsReducer";
 import highlightedReducer from "reducers/highlightedReducer";
+import { SetShowsContext, ShowsContext } from "contexts/ShowsContext";
+import { LayoutContext, SetLayoutContext } from "contexts/LayoutContext";
+import {
+  HighlightedShowContext,
+  SetHighlightedShowContext,
+} from "contexts/HighlightedShowContext";
 
 import "App.css";
 
@@ -16,6 +22,9 @@ function App() {
   );
   const [layout, setLayout] = useState("list");
 
+  /**
+   *
+   */
   useEffect(() => {
     // do not reset the highlighted if highlighted show is inside shows array
     if (shows.find(item => item.show.id === highlightedShow?.id)) {
@@ -25,8 +34,11 @@ function App() {
       type: "unset",
       show: null,
     });
-  }, [shows]);
+  }, [shows, highlightedShow]);
 
+  /**
+   *
+   */
   const mainClasses = useMemo(() => {
     const showVisible = highlightedShow ? "show-highlighted" : "";
     return `${layout} ${showVisible}`;
@@ -35,25 +47,31 @@ function App() {
   return (
     <>
       <Header />
-      <Search
-        results={shows}
-        setResults={setShows}
-        layout={layout}
-        setLayout={setLayout}
-      />
+      <ShowsContext.Provider value={shows}>
+        <SetShowsContext.Provider value={setShows}>
+          <LayoutContext.Provider value={layout}>
+            <SetLayoutContext.Provider value={setLayout}>
+              <Search />
+            </SetLayoutContext.Provider>
+          </LayoutContext.Provider>
+        </SetShowsContext.Provider>
+      </ShowsContext.Provider>
       <main className={mainClasses}>
         <article>
-          <List
-            results={shows}
-            layout={layout}
-            setHighlightedShow={setHighlightedShow}
-          />
+          <ShowsContext.Provider value={shows}>
+            <LayoutContext.Provider value={layout}>
+              <SetHighlightedShowContext.Provider value={setHighlightedShow}>
+                <List />
+              </SetHighlightedShowContext.Provider>
+            </LayoutContext.Provider>
+          </ShowsContext.Provider>
         </article>
         <aside>
-          <ShowHighlighted
-            highlightedShow={highlightedShow}
-            setHighlightedShow={setHighlightedShow}
-          />
+          <HighlightedShowContext.Provider value={highlightedShow}>
+            <SetHighlightedShowContext.Provider value={setHighlightedShow}>
+              <HighlightedShow />
+            </SetHighlightedShowContext.Provider>
+          </HighlightedShowContext.Provider>
         </aside>
       </main>
     </>

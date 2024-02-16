@@ -1,15 +1,17 @@
-import { SyntheticEvent } from "react";
+import { SyntheticEvent, useContext } from "react";
 import parse from "html-react-parser";
 import { ChevronDown } from "lucide-react";
 import { IShowFiltered } from "interfaces";
+import { LayoutContext } from "contexts/LayoutContext";
+import { SetHighlightedShowContext } from "contexts/HighlightedShowContext";
 
 type args = {
   show: IShowFiltered;
-  layout: string;
-  setHighlightedShow: Function;
 };
 
-export default function ListItem({ show, layout, setHighlightedShow }: args) {
+export default function ListItem({ show }: args) {
+  const setHighlightedShow = useContext(SetHighlightedShowContext);
+  const layout = useContext(LayoutContext);
   const rating = show.rating ? (
     <span>
       <strong>Rating: </strong>
