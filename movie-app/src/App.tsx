@@ -1,40 +1,23 @@
-import { useEffect, useMemo, useReducer, useState } from "react";
+import { useMemo, useReducer, useState } from "react";
 import Header from "components/header";
 import Search from "components/search";
 import List from "components/list";
 import HighlightedShow from "components/highlighted-show";
 import showsReducer from "reducers/showsReducer";
-import highlightedReducer from "reducers/highlightedReducer";
 import { SetShowsContext, ShowsContext } from "contexts/ShowsContext";
 import { LayoutContext, SetLayoutContext } from "contexts/LayoutContext";
 import {
   HighlightedShowContext,
   SetHighlightedShowContext,
 } from "contexts/HighlightedShowContext";
+import { useHighlightedShow } from "hooks/useHighlighted";
 
 import "App.css";
 
 function App() {
   const [shows, setShows] = useReducer(showsReducer, []);
-  const [highlightedShow, setHighlightedShow] = useReducer(
-    highlightedReducer,
-    null
-  );
   const [layout, setLayout] = useState("list");
-
-  /**
-   *
-   */
-  useEffect(() => {
-    // do not reset the highlighted if highlighted show is inside shows array
-    if (shows.find(item => item.show.id === highlightedShow?.id)) {
-      return;
-    }
-    setHighlightedShow({
-      type: "unset",
-      show: null,
-    });
-  }, [shows, highlightedShow]);
+  const { highlightedShow, setHighlightedShow } = useHighlightedShow(shows);
 
   /**
    *
